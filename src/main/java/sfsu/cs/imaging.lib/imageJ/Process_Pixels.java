@@ -6,6 +6,8 @@ package sfsu.cs.imaging.lib.imageJ;
  *
  * See the CC0 1.0 Universal license for details:
  *     http://creativecommons.org/publicdomain/zero/1.0/
+ *
+ *     Learn and testing ImageJ plugins.
  */
 
 import ij.IJ;
