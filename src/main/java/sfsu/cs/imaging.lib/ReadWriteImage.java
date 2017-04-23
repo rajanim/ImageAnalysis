@@ -1,4 +1,4 @@
-package imaging.apis;
+package sfsu.cs.imaging.lib;
 
 
 import java.io.File;

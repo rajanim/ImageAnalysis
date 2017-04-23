@@ -1,4 +1,4 @@
-package imaging.apis;
+package sfsu.cs.imaging.lib.imageJ;
 
 /*
  * To the extent possible under law, the Fiji developers have waived
@@ -17,7 +17,7 @@ import ij.process.ImageProcessor;
 
 /**
  * ProcessPixels
- *
+ * Test ImageJ plugins.
  * A template for processing each pixel of either
  * GRAY8, GRAY16, GRAY32 or COLOR_RGB images.
  *
@@ -37,7 +37,7 @@ public class Process_Pixels implements PlugInFilter {
     /**
      * @see ij.plugin.filter.PlugInFilter#setup(String, ij.ImagePlus)
      */
-    @Override
+   // @Override
     public int setup(String arg, ImagePlus imp) {
         if (arg.equals("about")) {
             showAbout();
@@ -51,7 +51,7 @@ public class Process_Pixels implements PlugInFilter {
     /**
      * @see ij.plugin.filter.PlugInFilter#run(ij.process.ImageProcessor)
      */
-    @Override
+ //   @Override
     public void run(ImageProcessor ip) {
         // get width and height
         width = ip.getWidth();
