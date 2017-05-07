@@ -1,4 +1,7 @@
-package sfsu.cs.imaging.lib;
+package sfsu.cs.imaging;
+
+import ij.IJ;
+import ij.ImagePlus;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -19,6 +22,9 @@ public class GrayScale {
 
             f = new File("/Users/rajanishivarajmaski1/University/scala-practice/stock_vectorbanner.jpg");
             image = ImageIO.read(f);
+            ImagePlus imagePlus = IJ.openImage("/Users/rajanishivarajmaski1/University/scala-practice/stock_vectorbanner.jpg");
+            imagePlus.show();
+
         } catch (IOException e) {
 
         }
@@ -65,6 +71,9 @@ public class GrayScale {
         try {
             f = new File("/Users/rajanishivarajmaski1/University/scala-practice/avg_stock_vectorbanner.jpg");
             ImageIO.write(image, "jpg", f);
+            ImagePlus imagePlus = IJ.openImage("/Users/rajanishivarajmaski1/University/scala-practice/avg_stock_vectorbanner.jpg");
+            imagePlus.show();
+
 
         } catch (IOException e) {
 

@@ -1,6 +1,6 @@
-package imaging.apis;
+package sfsu.cs.imaging;
 
-import mark.lewis.GUI.ImageIO;
+
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,6 +40,7 @@ public class RandomPixelImage {
         try {
             file = new File("/Users/rajanishivarajmaski1/University/scala-practice/test.png");
             javax.imageio.ImageIO.write(image, "png", file);
+
         }catch (IOException e){
             System.err.println("io exception");
         }

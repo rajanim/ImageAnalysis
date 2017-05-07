@@ -1,4 +1,4 @@
-package sfsu.cs.imaging.lib.imageJ;
+package sfsu.cs.imaging.imageJ;
 
 /*
  * To the extent possible under law, the Fiji developers have waived
@@ -187,7 +187,9 @@ public class Process_Pixels implements PlugInFilter {
         new ImageJ();
 
         // open the Clown sample
-        ImagePlus image = IJ.openImage("http://imagej.net/images/clown.jpg");
+         ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/Bio_Img_821/fixed_image/000000.dcm");
+
+        //ImagePlus image = IJ.openImage("http://imagej.net/images/clown.jpg");
         image.show();
 
         // run the plugin

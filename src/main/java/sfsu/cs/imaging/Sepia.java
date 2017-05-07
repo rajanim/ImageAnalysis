@@ -1,4 +1,6 @@
-package sfsu.cs.imaging.lib;
+package sfsu.cs.imaging;
+
+import sfsu.cs.imaging.imageJ.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -73,6 +75,8 @@ public class Sepia {
         try {
             f = new File("/Users/rajanishivarajmaski1/University/scala-practice/stock_vectorbanner_sepia.jpg");
             ImageIO.write(image, "jpg", f);
+            Utils.showImage("/Users/rajanishivarajmaski1/University/scala-practice/stock_vectorbanner_sepia.jpg");
+
         }catch (IOException e) {
             System.err.println("io" + e);
         }

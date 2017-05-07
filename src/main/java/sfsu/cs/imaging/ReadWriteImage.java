@@ -1,5 +1,8 @@
-package sfsu.cs.imaging.lib;
+package sfsu.cs.imaging;
 
+
+import ij.IJ;
+import ij.ImagePlus;
 
 import java.io.File;
 import  java.io.IOException;
@@ -25,6 +28,9 @@ public class ReadWriteImage {
 
             file = new File("/Users/rajanishivarajmaski1/University/scala-practice/castle2_copy.png");
             ImageIO.write(image, "png", file);
+            ImagePlus imagePlus = IJ.openImage("/Users/rajanishivarajmaski1/University/scala-practice/castle2_copy.png");
+            imagePlus.show();
+
             System.out.println("write done");
 
         }catch (IOException e){

@@ -1,4 +1,4 @@
-package sfsu.cs.imaging.lib;
+package sfsu.cs.imaging;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
