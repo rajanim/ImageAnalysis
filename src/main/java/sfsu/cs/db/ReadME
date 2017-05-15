@@ -1,0 +1,12 @@
+MainDbOps is main class.
+    It makes call to DAO.java for operations.
+    It has Utils for utility methods
+
+
+Extra Credit(EC)
+ECMainDbOps is main class.
+    It makes call to ECDAO.java for operations.
+    It has Utils for utility methods
+
+
+ TestSQLDriverConnection is just a method to test sql connection established or not.

@@ -1,57 +1,63 @@
 package sfsu.cs;
 
-import java.util.Scanner;
+/**
+ * Created by rajanishivarajmaski1 on 5/12/17.
+ *
+ * By default radius should be set to zero
+ * UML
+ ********************
+ * Circle
+ * ******************
+ * radius
+ * ******************
+ * Circle()
+ * Circle(radius)
+ * setRadius()
+ * getRadius()
+ * getArea()
+ * getCircumference()
+ * ******************
+ *
+ */
 
-class Circle {
+
+public class Circle {
     String name;
     int radius;
-    static int count = 1;
 
-    Circle() {
-        count = count + 2;
-    }
-}
-class TestCircle {
-    public static void main(String [] args) {
 
-        Circle c0 = new Circle();
-        c0.name = "oval";
-        c0.radius = 5;
-
-        Circle c1 = new Circle();
-        c1.name = "curved";
-        c1.radius = 15;
-
-        Circle c2 = new Circle();
-        c2.name = "elliptical";
-        c2.radius = 20;
-
-        System.out.println(c0.count);
-        System.out.println(c1.count);
-
-        System.out.println("Names: " + c0.name + " " + c1.name + " " + c2.name);
-        System.out.println(Circle.count);
-        c1 = c2;
-        c1.radius = 13;
-        c0.radius = c2.radius + c0.radius;
-
-        System.out.println("radius = " + c0.radius + " " + c1.radius + " " + c2.radius);
-
+    static int counter = 0;
+    //no arg constructor
+    public Circle(){
+        counter++;
+        this.radius = 10;
     }
 
-    public static void main2(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        int number, max;
-        number = input.nextInt();
-        max = number;
-        while (number != 0) {
-            number = input.nextInt();
-            if (number > max)
-                max = number;
-        }
-        System.out.println("max is " + max);
-        System.out.println("number " + number);
+    //1-arg constructor, radius as input
+    public  Circle(int newRadius){
+        counter++;
+        this.radius = newRadius;
     }
+
+    //
+    public void setRadius(int newRadius){
+        this.radius = newRadius;
+    }
+
+    public int getRadius(){
+        return this.radius;
+    }
+
+    public double getArea(){
+        double area = Math.PI * this.radius * this.radius;
+        return area;
+    }
+
+    public double getCircumference(){
+        double circm = 2 * Math.PI * this.radius;
+        return circm;
+    }
+
+
 
 }

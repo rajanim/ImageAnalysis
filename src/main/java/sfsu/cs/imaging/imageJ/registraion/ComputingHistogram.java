@@ -1,7 +1,8 @@
 package sfsu.cs.imaging.imageJ;
 
 /**
- * https://github.com/imagingbook/imagingbook-plugins-all/blob/master/src/main/java/Histograms_Statistics/Compute_Histogram.java
+ * ComputingHistogram for MI implementation
+ *
  */
 
 import ij.IJ;
@@ -9,6 +10,8 @@ import ij.ImageJ;
 import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ImageProcessor;
+
+import java.util.Arrays;
 
 public class ComputingHistogram implements PlugInFilter {
 
@@ -51,7 +54,7 @@ public class ComputingHistogram implements PlugInFilter {
        for (Integer i : h)
            System.out.println(i);
         // ... histogram h[] can now be used
-        IJ.showMessage("This plugin only calculates the histogram but does not show anything");
+        IJ.showMessage("computation done" + Arrays.toString(h));
     }
 }
 
