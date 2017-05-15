@@ -3,6 +3,7 @@ package sfsu.cs.imaging.imageJ;
 import ij.IJ;
 import ij.ImageJ;
 import ij.ImagePlus;
+import sfsu.cs.imaging.imageJ.registraion.Chamfer_Matching_Test;
 
 /**
  * Created by rajanishivarajmaski1 on 5/12/17.
@@ -11,7 +12,7 @@ public class RunImageJPlugins {
 
     public static void main(String[] args) {
         // set the plugins.dir property to make the plugin appear in the Plugins menu
-        Class<?> clazz = Chamfer_Matching_Demo.class;
+        Class<?> clazz = Chamfer_Matching_Test.class;
         String url = clazz.getResource("/" + clazz.getName().replace('.', '/') + ".class").toString();
         String pluginsDir = url.substring(5, url.length() - clazz.getName().length() - 6);
         System.setProperty("plugins.dir", pluginsDir);

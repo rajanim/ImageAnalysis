@@ -10,6 +10,8 @@ import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
+import sfsu.cs.imaging.imageJ.registraion.Chamfer_Matching_Test;
+import sfsu.cs.imaging.imageJ.registraion.CorrelCoeff_Matching;
 
 /*******************************************************************************
  * This software is provided as a supplement to the authors' textbooks on digital
@@ -37,7 +39,7 @@ public class Test implements PlugInFilter {
         refImg = IJ.openImage("/Users/rajanishivarajmaski1/University/Bio_Img_821/fixed_image/000000.tif");
         refImg.show();
         FloatProcessor I = (FloatProcessor) ip.convertToFloatProcessor();
-        CorrCoeffMatcher matcher = new CorrCoeffMatcher(I);
+        Chamfer_Matching_Test.CrossCorrelationCoeffMatcher matcher = new Chamfer_Matching_Test.CrossCorrelationCoeffMatcher(I);
 
         ImageProcessor refIp = refImg.getProcessor();
         FloatProcessor R = (FloatProcessor) refIp.convertToFloatProcessor();
@@ -50,7 +52,7 @@ public class Test implements PlugInFilter {
 
 
     public static void main(String[] args) {
-        Class<?> clazz = CorrelCoeff_Matching_Demo.class;
+        Class<?> clazz = CorrelCoeff_Matching.class;
         String url = clazz.getResource("/" + clazz.getName().replace('.', '/') + ".class").toString();
         String pluginsDir = url.substring(5, url.length() - clazz.getName().length() - 6);
         System.setProperty("plugins.dir", pluginsDir);

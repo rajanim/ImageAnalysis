@@ -9,32 +9,28 @@ package sfsu.cs.imaging.imageJ;
  * Visit http://imagingbook.com for additional details.
  *******************************************************************************/
 
+import ij.IJ;
+import ij.ImageJ;
+import ij.ImagePlus;
+import ij.gui.Overlay;
+import ij.gui.Roi;
+import ij.gui.ShapeRoi;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.FloatProcessor;
+import ij.process.ImageProcessor;
+import imagingbook.lib.image.ImageExtractor;
+import imagingbook.lib.math.Matrix;
+import imagingbook.lib.settings.PrintPrecision;
+import imagingbook.pub.geometry.mappings.linear.ProjectiveMapping;
+import imagingbook.pub.lucaskanade.LucasKanadeForwardMatcher;
+import imagingbook.pub.lucaskanade.LucasKanadeInverseMatcher;
+import imagingbook.pub.lucaskanade.LucasKanadeMatcher;
 
-        import ij.IJ;
-        import ij.ImageJ;
-        import ij.ImagePlus;
-        import ij.gui.Overlay;
-        import ij.gui.Roi;
-        import ij.gui.ShapeRoi;
-        import ij.plugin.filter.PlugInFilter;
-        import ij.process.FloatProcessor;
-        import ij.process.ImageProcessor;
-        import imagingbook.lib.image.ImageExtractor;
-        import imagingbook.lib.math.Matrix;
-        import imagingbook.lib.settings.PrintPrecision;
-        import imagingbook.pub.geometry.mappings.linear.ProjectiveMapping;
-        import imagingbook.pub.lucaskanade.LucasKanadeForwardMatcher;
-        import imagingbook.pub.lucaskanade.LucasKanadeInverseMatcher;
-        import imagingbook.pub.lucaskanade.LucasKanadeMatcher;
-
-        import java.awt.Color;
-        import java.awt.Point;
-        import java.awt.Rectangle;
-        import java.awt.geom.Path2D;
-        import java.awt.geom.Point2D;
-        import java.awt.geom.Rectangle2D;
-        import java.util.Random;
-
+import java.awt.*;
+import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 /**
  * This ImageJ plugin is a minimalistic example of using the Lucas-Kanade
@@ -50,7 +46,7 @@ package sfsu.cs.imaging.imageJ;
  * Note that the plotted boundaries are 1 pixel smaller (in x/y) than the original
  * ROI, because the original quad vertices are assumed to be positioned at pixel
  * centers. Thus if the ROI is 2 pixels wide, the corresponding quad only has width 1.
- *
+ * <p>
  * <p>The following steps are performed:</p>
  * <ul>
  * <li>Step 0: Create the search image I.</li>
@@ -74,16 +70,40 @@ public class LucasKanadeDemo implements PlugInFilter {
     static boolean drawBoundaries = true;
     static boolean forwardMatcher = true;
 
-    static {PrintPrecision.set(6);}
+    static {
+        PrintPrecision.set(6);
+    }
 
+    private final Random rg = new Random();
     ImagePlus img = null;
     Overlay oly = null;
+    public static void main(String[] args) {
+        // set the plugins.dir property to make the plugin appear in the Plugins menu
+        Class<?> clazz = LucasKanadeDemo.class;
+        String url = clazz.getResource("/" + clazz.getName().replace('.', '/') + ".class").toString();
+        String pluginsDir = url.substring(5, url.length() - clazz.getName().length() - 6);
+        System.setProperty("plugins.dir", pluginsDir);
 
+        // start ImageJ
+        new ImageJ();
+
+        // open the Clown sample
+        // ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/Bio_Img_821/fixed_image/1000000.tif");
+        //  ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/scala-practice/stock_vectorbanner.jpg");
+        ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/Bio_Img_821/fixed_image/einstein_selected.tif");
+
+        //ImagePlus image = IJ.openImage("http://imagej.net/images/clown.jpg");
+        image.show();
+
+        // run the plugin
+        IJ.runPlugIn(clazz.getName(), "");
+    }
+
+    // ----------------------------------------------------------
     public int setup(String args, ImagePlus img) {
         this.img = img;
         return DOES_8G + ROI_REQUIRED;
     }
-
     public void run(ImageProcessor ip) {
         Roi roi = img.getRoi();
         if (roi != null && roi.getType() != Roi.RECTANGLE) {
@@ -103,7 +123,7 @@ public class LucasKanadeDemo implements PlugInFilter {
 
         // Step 3: Perturb the ROI corners to form the quad QQ and extract the reference image R:
         System.out.println("        // Step 3: Perturb the ROI corners to form the quad QQ and extract the reference image R:\n");
-        Point2D[] Q  = getCornerPoints(roiR);
+        Point2D[] Q = getCornerPoints(roiR);
         Point2D[] QQ = perturbGaussian(Q);
         (new ImageExtractor(I)).extractImage(R, QQ);
         (new ImagePlus("R", R)).show();
@@ -129,10 +149,10 @@ public class LucasKanadeDemo implements PlugInFilter {
         // Step 7: Initialize the matcher and run the matching loop:
         ProjectiveMapping T = Tinit;
         do {
-            T = matcher.iterateOnce(T);		// returns null if iteration failed
+            T = matcher.iterateOnce(T);        // returns null if iteration failed
             int i = matcher.getIteration();
             double err = matcher.getRmsError();
-            IJ.log(String.format("Iteration = %d, RMS error = %.2f", i , err));
+            IJ.log(String.format("Iteration = %d, RMS error = %.2f", i, err));
         }
         while (T != null && !matcher.hasConverged() &&
                 matcher.getIteration() < maxIterations);
@@ -142,8 +162,7 @@ public class LucasKanadeDemo implements PlugInFilter {
         if (T == null || !matcher.hasConverged()) {
             IJ.log("no match found!");
             return;
-        }
-        else {
+        } else {
             ProjectiveMapping Tfinal = T;
 
             IJ.log(" ++++++++++++++++ Summary +++++++++++++++++++");
@@ -160,12 +179,12 @@ public class LucasKanadeDemo implements PlugInFilter {
 
             IJ.log("Corners of reference patch:");
             Point2D[] ptsRef = Treal.applyTo(matcher.getReferencePoints());
-            for(Point2D pt : ptsRef) {
+            for (Point2D pt : ptsRef) {
                 IJ.log("  pt = " + pt.toString());
             }
             IJ.log("Corners for best match:");
             Point2D[] ptsFinal = Tfinal.applyTo(matcher.getReferencePoints());
-            for(Point2D pt : ptsFinal) {
+            for (Point2D pt : ptsFinal) {
                 IJ.log("  pt = " + pt.toString());
             }
 
@@ -185,9 +204,6 @@ public class LucasKanadeDemo implements PlugInFilter {
             }
         }
     }
-
-    // ----------------------------------------------------------
-
     private Point2D[] getCornerPoints(Rectangle2D r) {
         //IJ.log("getpoints2:  r = " + r.toString());
         double x = r.getX();
@@ -196,15 +212,12 @@ public class LucasKanadeDemo implements PlugInFilter {
         double h = r.getHeight();
         Point2D[] pts = new Point2D[4];
         pts[0] = new Point2D.Double(x, y);
-        pts[1] = new Point2D.Double(x + w - 1, y);	// does -1 matter? YES!!!
+        pts[1] = new Point2D.Double(x + w - 1, y);    // does -1 matter? YES!!!
         pts[2] = new Point2D.Double(x + w - 1, y + h - 1);
         pts[3] = new Point2D.Double(x, y + h - 1);
         //IJ.log("getpoints2:  p1-4 = " + pts[0] + ", " + pts[1] + ", " + pts[2] + ", " + pts[3]);
         return pts;
     }
-
-    private final Random rg = new Random();
-
     private Point2D perturbGaussian(Point2D p) {
         double x = p.getX();
         double y = p.getY();
@@ -212,7 +225,6 @@ public class LucasKanadeDemo implements PlugInFilter {
         y = y + rg.nextGaussian() * sigma;
         return new Point2D.Double(x, y);
     }
-
     private Point2D[] perturbGaussian(Point2D[] pntsIn) {
         Point2D[] pntsOut = pntsIn.clone();
         for (int i = 0; i < pntsIn.length; i++) {
@@ -220,7 +232,6 @@ public class LucasKanadeDemo implements PlugInFilter {
         }
         return pntsOut;
     }
-
     private Roi makePolygon(Point2D[] points, double strokeWidth, Color color) {
         Path2D poly = new Path2D.Double();
         if (points.length > 0) {
@@ -234,28 +245,6 @@ public class LucasKanadeDemo implements PlugInFilter {
         shapeRoi.setStrokeWidth(strokeWidth);
         shapeRoi.setStrokeColor(color);
         return shapeRoi;
-    }
-
-    public static void main(String[] args) {
-        // set the plugins.dir property to make the plugin appear in the Plugins menu
-        Class<?> clazz = LucasKanadeDemo.class;
-        String url = clazz.getResource("/" + clazz.getName().replace('.', '/') + ".class").toString();
-        String pluginsDir = url.substring(5, url.length() - clazz.getName().length() - 6);
-        System.setProperty("plugins.dir", pluginsDir);
-
-        // start ImageJ
-        new ImageJ();
-
-        // open the Clown sample
-       // ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/Bio_Img_821/fixed_image/1000000.tif");
-        //  ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/scala-practice/stock_vectorbanner.jpg");
-           ImagePlus image = IJ.openImage("/Users/rajanishivarajmaski1/University/Bio_Img_821/fixed_image/einstein_selected.tif");
-
-        //ImagePlus image = IJ.openImage("http://imagej.net/images/clown.jpg");
-        image.show();
-
-        // run the plugin
-        IJ.runPlugIn(clazz.getName(), "");
     }
 
 }

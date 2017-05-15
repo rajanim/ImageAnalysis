@@ -14,13 +14,13 @@ import imagingbook.pub.matching.DistanceTransform.Norm;
 /**
  *  ImageJ plugin demonstrates binary images distance transform
  */
-public class Chamfer_Matching_Demo implements PlugInFilter {
+public class Chamfer_Matching_Test implements PlugInFilter {
 
     private ImagePlus imgI = null;
     private ImagePlus imgR = null;
     public static void main(String[] args) {
         // set the plugins.dir property to make the plugin appear in the Plugins menu
-        Class<?> clazz = Chamfer_Matching_Demo.class;
+        Class<?> clazz = Chamfer_Matching_Test.class;
         String url = clazz.getResource("/" + clazz.getName().replace('.', '/') + ".class").toString();
         String pluginsDir = url.substring(5, url.length() - clazz.getName().length() - 6);
         System.setProperty("plugins.dir", pluginsDir);

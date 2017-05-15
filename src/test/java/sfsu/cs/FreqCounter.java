@@ -3,7 +3,7 @@ package sfsu.cs;
 /**
  * Created by rajanishivarajmaski1 on 5/15/17.
  */
-public class ExtraCredit_Final {
+public class FreqCounter {
 
     public static void main(String[] args) {
 
